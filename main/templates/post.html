@@ -7,14 +7,12 @@
     <title>歡迎光臨我的部落格</title>
 </head>
 <body>
-    <h1>歡迎光臨我的部落格</h1>
+    <h1> {{post.title}} </h1>
     <hr>
-    {% for post in posts %}
-        <p style="font-family: 微軟正黑體; font-size:16pt; font-weight: bold;">
-            <a href="/post/{{post.slug}}">{{post.title}}</a>
-        </p>
-    {% endfor %}
+    <p style="font-family: 微軟正黑體; font-size:12pt; letter-spacing: 2pt">
+        {{post.body}}
+    </p>
     <hr>
-    <h3>現在時刻：{{now}}</h3>
+    <h3><a href="/">回首頁</a></h3>
 </body>
 </html>

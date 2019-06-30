@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.views import homepage
+from myapp.views import homepage, showpost
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage),
+    path('post/<slug:slug>/', showpost), # slug是一種型態，內容千萬不要是中文
 ]
