@@ -17,7 +17,7 @@ class NewTable(models.Model):
 
 class Product(models.Model):
     SIZES = (
-        ('S', 'Smaill'),
+        ('S', 'Small'),
         ('M', 'Medium'),
         ('L', 'Large'),
     )
