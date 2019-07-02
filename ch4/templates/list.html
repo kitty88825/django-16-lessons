@@ -13,10 +13,15 @@
     <table width=400 border=1 bgcolor=#ccffcc>
         <tr><td>品名</td><td>售價</td><td>大小</td></tr>
         {% for p in products %}
-            <tr><td>{{p.name}}</td>
-            <td>{{p.price}}</td>
-            <td>{{p.size}}</td></tr>
+            <tr>
+                <td><a href="/list/{{p.sku}}/
+                    ">{{p.name}}</a></td>
+                <td>{{p.price}}</td>
+                <td>{{p.size}}</td>
+            </tr>
         {% endfor %}
     </table>
+    <hr>
+    <a href="/">回首頁</a>
 </body>
 </html>
