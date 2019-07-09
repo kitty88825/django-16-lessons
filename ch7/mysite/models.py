@@ -34,7 +34,7 @@ class PPhoto(models.Model):
     url = models.URLField(default='http://i.imgur.com/Z230eeq.png') # 照片網址
 
     def __str__(self):
-        pass
+        return self.description
 
 
 
