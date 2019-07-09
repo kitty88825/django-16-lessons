@@ -7,10 +7,10 @@ def index(request):
     return render(request, 'index.html', locals())
 
 
-def detail(reqest, id):
+def detail(request, id):
     try:
-        product = models.objects.get(id=id)
+        product = models.Product.objects.get(id=id)
         images = models.PPhoto.objects.filter(product=product)
     except:
         pass
-    return render(reqest, 'detail.html', locals())
+    return render(request, 'detail.html', locals())

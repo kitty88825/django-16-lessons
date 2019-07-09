@@ -5,14 +5,14 @@
     <div class="container" allgn=center>
         {% if products %}
             <table>
-                <!-- title -->
+                <!-- table title -->
                 <tr bgcolor='#A0B6B2'>
                     <td width=250>庫存手機</td>
                     <td width=150>廠牌/型號</td>
                     <td width=50>出廠年</td>
                     <td>價格</td>
                 </tr>
-                <!-- content -->
+                <!-- table content -->
                 {% for p in products %}
                     <tr bgcolor='{% cycle "#D0ECE7" "E8F8F5" %}'>    
                         <td><a href='{% url "detail-url" p.id %}'>{{p.nickname}}</a></td>
