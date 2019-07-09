@@ -18,11 +18,11 @@ class PModel(models.Model):
 
 
 class Product(models.Model):
-    pmodel = models.ForeignKey(PModel, on_delete=models.CASCADE) # 手機規格
-    nickname = models.CharField(max_length=15, default='超值二手機') # 簡單說明
+    pmodel = models.ForeignKey(PModel, on_delete=models.CASCADE, verbose_name='型號')
+    nickname = models.CharField(max_length=15, default='超值二手機', verbose_name='摘要')
     description = models.TextField(default='暫無說明') # 詳細說明
-    year = models.PositiveIntegerField(default=2016) # 製造年份(正整數)
-    price = models.PositiveIntegerField(default=0) # 售價(正整數)
+    year = models.PositiveIntegerField(default=2016, verbose_name='出廠年份')
+    price = models.PositiveIntegerField(default=0, verbose_name='價格')
 
     def __str__(self):
         return self.nickname
