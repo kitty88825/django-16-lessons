@@ -1,0 +1,7 @@
+Django==2.2.2
+django-bootstrap4==0.0.8
+ipython==7.6.0
+pylint==2.3.1
+pylint-django==2.0.9
+pytz==2019.1
+sqlparse==0.3.0
