@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from mysite import models
+from mysite import models, forms
 
 # Create your views here.
 def index(request, pid=None, del_pass=None):
@@ -59,3 +59,9 @@ def posting(request):
         message = '成功儲存！請記得你的編輯密碼[{}]！，訊息須經審查後才會顯示。'.format(user_pass)
 
     return render(request, 'posting.html', locals())
+
+
+def contact(request):
+    form = forms.ContactForm()
+    
+    return render(request, 'contact.html', locals())
