@@ -1,9 +1,23 @@
 <!-- index.html -->
+<script>
+    function go_delete(id){
+        var user_pass = document.getElementById('user_pass').value;
+        if (user_pass != ''){
+            var usr = '/' + id +'/' + user_pass;
+            window.location = usr;
+        }
+    }
+</script>
 {% extends "base.html" %}
 {% block title %}不吐不快{% endblock title %}
 {% block content %}
     <div class="container" allgn=center>
         <form action="/" name='my form' method="GET">
+            {% if message %}
+                <div class="alert alert-warning">
+                    {{message}}
+                </div>
+            {% endif %}
             現在的心情：
             {% for m in moods %}
                 <input type="radio" name="mood" value="{{m.status}}">{{m.status}}
@@ -40,6 +54,7 @@
                         <div class="panel-body"> {{p.message | linebreaks}} </div>
                         <div class="panel-footer" ,align='right'>
                             <i><small> {{p.pub_time}} </small></i>
+                            <span class="glyphicon glyphicon-trash" ,onclick="go_delete({{p.id}})"></span>
                         </div>
                     </div>
                 </div>
