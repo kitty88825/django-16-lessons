@@ -5,20 +5,22 @@
 
 {% block content %}
     <div class="container">
+        {% if message %}
+            <div class="alert alert-warning">{{message}}</div>
+            {{user_name}}<br/>
+            {{user_city}}<br/>
+            {{user_school}}<br/>
+            {{user_email}}<br/>
+            {{user_message|linebreaks}}<br/>
+        {% endif %}
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <form action="." name='my form' method="POST">
+                <form name="my form" action="." method="POST">
                     {% csrf_token %}
                     <h3>寫信給管理員</h3>
             </div>
             <div class="panel-body">
-                    <!--
-                        form.as_p： 
-                        會以<p>段落格式的方式產生表單的欄位內容
-                        (但是並不會產生<form></form>、submit按鈕) 
-                        ps:還有.as_table以及.as_ul
-                    -->
-                    {{form.as_p}}
+                {{form.as_p}}
             </div>
             <div class="panel-footer">
                 <input type="submit" value="送出">
@@ -27,3 +29,9 @@
         </div>
     </div>
 {% endblock content %}
+<!--
+    form.as_p： 
+    會以<p>段落格式的方式產生表單的欄位內容
+    (但是並不會產生<form></form>、submit按鈕) 
+    ps:還有.as_table以及.as_ul 
+-->

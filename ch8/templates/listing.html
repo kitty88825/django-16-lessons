@@ -1,10 +1,10 @@
 <!-- listing.html -->
 {% extends "base.html" %}
 
-{% block title %}{% endblock title %}
+{% block title %}留言板{% endblock title %}
 
 {% block content %}
-<div class="content">
+<div class="container" align=center>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -30,7 +30,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" align=left>
                         {{p.message | linebreaks}}
                     </div>
                 </div>
