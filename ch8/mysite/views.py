@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.core.mail import send_mail
 from mysite import models, forms
+from ch8 import settings
 
 # Create your views here.
 def index(request, pid=None, del_pass=None):
@@ -71,6 +73,16 @@ def contact(request):
             user_school = form.cleaned_data['user_school']
             user_email = form.cleaned_data['user_email']
             user_message = form.cleaned_data['user_message']
+
+            send_title = "來自【來自不吐不快】網站的網友意見"
+            send_body = f'網友姓名：{user_name}\n 居住城市：{user_city}\n 是否在學：{user_school}\n 反應意見：如下{user_message}'
+            send_mail(
+                    send_title,
+                    send_body,
+                    settings.EMAIL_HOST_USER,
+                    [user_email],
+                    fail_silently=False,
+                    )
         else:
             message = '請檢查您輸入的資訊是否正確！'
     else:
