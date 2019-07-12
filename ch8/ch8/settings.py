@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mysite',
-    'captcha', 
-    # https://django-simple-captcha.readthedocs.io/en/latest/usage.html
+    'captcha',  # https://django-simple-captcha.readthedocs.io/en/latest/usage.html
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -133,3 +133,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'MY_EMAIL'
 EMAIL_HOST_PASSWORD = 'MY_PASSWORD'
+
+GOOGLE_RECAPTCHA_SECRET_KEY = 'My_SECRET_KEY'
