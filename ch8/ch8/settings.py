@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mysite',
+    'captcha', 
+    # https://django-simple-captcha.readthedocs.io/en/latest/usage.html
 ]
 
 MIDDLEWARE = [

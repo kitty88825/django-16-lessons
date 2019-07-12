@@ -1,9 +1,14 @@
+autopep8==1.4.4
 certifi==2019.6.16
 chardet==3.0.4
 Django==2.2.2
 django-bootstrap4==0.0.8
+django-ranged-response==0.2.0
+django-simple-captcha==0.5.11
 idna==2.8
 ipython==7.6.0
+Pillow==6.1.0
+pycodestyle==2.5.0
 pylint==2.3.1
 pylint-django==2.0.9
 pytz==2019.1

@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mysite import views
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('post/', views.posting),
     path('post2db/', views.post2db),
     path('contact/', views.contact),
+    path('captcha/', include('captcha.urls')),
 ]
