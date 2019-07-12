@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from mysite import models, forms
 from ch8 import settings
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request, pid=None, del_pass=None):
@@ -92,8 +93,17 @@ def contact(request):
 
 
 def post2db(request):
-    post_form = forms.PostForm()
-    moods = models.Mood.objects.all()
-    message = '如要張貼訊息，則每一個欄位都要填！'
+    if request.method == 'POST':
+        post_form = forms.PostForm(request.POST)
+        if post_form.is_valid():
+            message = '您的訊息已儲存。要等管理者啟用後才看得到喔。'
+            post_form.save() # form表單儲存進入資料庫
+            return HttpResponseRedirect('/list')
+        else:
+            message = '如要張貼訊息，則每一個欄位都要填！'
+            moods = models.Mood.objects.all()
+    else:
+        post_form = forms.PostForm()
+        message = '如要張貼訊息，則每一個欄位都要填！！'
     
     return render(request, 'post2db.html', locals())
