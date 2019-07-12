@@ -23,5 +23,6 @@ urlpatterns = [
     path('<int:id>/<str:del_pass>', views.index),
     path('list/', views.listing),
     path('post/', views.posting),
+    path('post2db/', views.post2db),
     path('contact/', views.contact),
 ]
