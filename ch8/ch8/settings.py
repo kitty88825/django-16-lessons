@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,7 +132,8 @@ STATICFILES_DIRS = [
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'MY_EMAIL'
-EMAIL_HOST_PASSWORD = 'MY_PASSWORD'
+EMAIL_HOST_USER = config.email.user
+EMAIL_HOST_PASSWORD = config.email.password
 
-GOOGLE_RECAPTCHA_SECRET_KEY = 'My_SECRET_KEY'
+# reCAPTCHA
+GOOGLE_RECAPTCHA_SECRET_KEY = config.recaptcha.secret_key
