@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.sessions.models import Session
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.conf import settings
 from mysite import models, forms
 
@@ -101,7 +102,10 @@ def userinfo(request):
     if request.user.is_authenticated:
         username = request.user.username
         try:            
-            userinfo = User.objects.get(username=username)
+            user = User.objects.get(username=username)
+            userinfo = models.Profile.objects.get(user=user)
         except:
             pass
     return render(request, 'userinfo.html', locals())
+    # html = template.render(locals())
+    # return HttpResponse(html)
