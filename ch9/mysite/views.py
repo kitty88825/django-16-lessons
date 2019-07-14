@@ -2,16 +2,17 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.contrib.sessions.models import Session
-from django.contrib import messages
+from django.contrib import messages, auth
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from mysite import models, forms
-import urllib, json
 
 # Create your views here.
-def index(request):
-    if 'user_name' in request.session:
-        user_name = request.session['user_name']
-        user_email = request.session['user_email']
+def index(request, pid=None, del_pass=None):
+    if request.user.is_authenticated: # 檢查使用者是否登入
+        username = request.user.username
+    messages.get_messages(request)
     return render(request, 'index.html', locals())
 
 
@@ -70,39 +71,37 @@ def login(request):
     if request.method == 'POST':
         login_form = forms.LoginForm(request.POST)
         if login_form.is_valid():
-            login_name = request.POST['user_name'].strip()
+            login_name = request.POST['username'].strip()
             login_password = request.POST['password']
-            try:
-                user = models.User.objects.get(name=login_name)
-                if user.password == login_password:
-                    request.session['user_name'] = user.name
-                    request.session['user_email'] = user.email
+            user = authenticate(username=login_name, password=login_password)
+            if user is not None:
+                if user.is_active:
+                    auth.login(request, user)
                     messages.add_message(request, messages.SUCCESS, '成功登入了')
                     return redirect('/')
                 else:
-                    messages.add_message(request, messages.WARNING, '密碼錯誤，請在檢查一次')
-            except:
-                messages.add_message(request, messages.WARNING, '找不到使用者')
+                    messages.add_message(request, messages.WARNING, '帳號尚未啟用')
+            else:
+                messages.add_message(request, messages.WARNING, '登入失敗')
         else:
             messages.add_message(request, messages.INFO, '請檢查輸入的欄位內容')
     else:
         login_form = forms.LoginForm()
     return render(request, 'login.html', locals())
 
-def logout(request):
-    if 'user_name' in request.session:
-        Session.objects.all().delete()
-        return redirect('/login/')
-    return redirect('/')
-    
-def userinfo(request):
-    if 'user_name' in request.session:
-        user_name = request.session['user_name']
-    else:
-        return redirect('/login/')
 
-    try:
-        userinfo = models.User.objects.get(name=user_name)
-    except:
-        pass
+def logout(request):
+    auth.logout(request)
+    messages.add_message(request, messages.INFO, '成功登出了')
+    return redirect('/')
+
+# 下面這一行用來告訴Django這個函數是需要登入過才能執行的(註解千萬別加在同一行)
+@login_required(login_url='/login/')
+def userinfo(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        try:            
+            userinfo = User.objects.get(username=username)
+        except:
+            pass
     return render(request, 'userinfo.html', locals())

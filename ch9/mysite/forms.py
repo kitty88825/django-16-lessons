@@ -4,7 +4,7 @@ from mysite import models
 from captcha.fields import CaptchaField
 
 class LoginForm(forms.Form):
-    user_name = forms.CharField(label='姓名', max_length=10)
+    username = forms.CharField(label='姓名', max_length=10)
     password = forms.CharField(label='密碼', widget=forms.PasswordInput())
 
 
