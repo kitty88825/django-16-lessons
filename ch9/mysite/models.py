@@ -33,3 +33,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Diary(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    budget = models.FloatField(default=0)
+    weight = models.FloatField(default=0)
+    note = models.TextField()
+    ddate = models.DateField()
+
+    def __str__(self):
+        return f'{self.ddate}({self.user})'
