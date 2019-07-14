@@ -20,16 +20,7 @@ class Post(models.Model):
     def __str__(self):
         return self.message
 
-
-class User(models.Model):
-    name = models.CharField(max_length=20, null=False)
-    email = models.EmailField()
-    password = models.CharField(max_length=20, null=False)
-    enabled = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.name
-
+# 貼心提醒要先刪掉class User喔！不然會報錯！！！
 
 class Profile(models.Model):
     # models.OneToOneField(User, on_delete=models.CASCADE)和ForeignKey類似，

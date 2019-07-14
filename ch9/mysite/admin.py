@@ -9,5 +9,4 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Mood)
 admin.site.register(models.Post, PostAdmin)
-admin.site.register(models.User)
 admin.site.register(models.Profile)
