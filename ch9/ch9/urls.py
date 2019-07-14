@@ -28,4 +28,5 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('logout/', views.logout),
     path('login/', views.login),
+    path('userinfo/', views.userinfo),
 ]

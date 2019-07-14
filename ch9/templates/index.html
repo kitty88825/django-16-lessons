@@ -3,11 +3,9 @@
 {% block title %}分享日記{% endblock title %}
 {% block content %}
     <div class="container" allgn=center>
-        <!-- {% if message %}
-            <div class="alert alert-warning">
-                {{message}}
-            </div>
-        {% endif %} -->
+        {% if message %}
+            <div class="alert alert-warning">{{message}}</div>
+        {% endif %}
         <!-- 文章title -->
         <div class="row">
             <div class="col-md-12">
@@ -16,8 +14,8 @@
                         <h3>我的私人日記</h3>
                     </div>
                 </div>
-                {% if user_name and user_color %}
-                    您的姓名為：{{user_name}}，最愛{{user_color}}色  
+                {% if user_name %}
+                    歡迎：{{user_name}}
                 {% endif %}
             </div>
         </div>

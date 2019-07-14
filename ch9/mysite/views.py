@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
+from django.contrib.sessions.models import Session
 from django.conf import settings
 from mysite import models, forms
 import urllib, json
@@ -9,15 +10,13 @@ import urllib, json
 def index(request):
     if 'user_name' in request.session:
         user_name = request.session['user_name']
-        user_color = request.session['user_color']
-
+        user_email = request.session['user_email']
     return render(request, 'index.html', locals())
 
 
 def listing(request):
     posts = models.Post.objects.filter(enabled=True).order_by('-pub_time')[:150]
     moods = models.Mood.objects.all()
-    
     return render(request, 'listing.html', locals())
 
 def posting(request):
@@ -36,7 +35,6 @@ def posting(request):
         post = models.Post.objects.create(mood=mood, nickname=user_id, del_pass=user_pass, message=user_post)
         post.save()
         message = '成功儲存！請記得你的編輯密碼[{}]！，訊息須經審查後才會顯示。'.format(user_pass)
-
     return render(request, 'posting.html', locals())
 
 
@@ -64,7 +62,6 @@ def contact(request):
             message = '請檢查您輸入的資訊是否正確！'
     else:
         form = forms.ContactForm()
-
     return render(request, 'contact.html', locals())
 
 
@@ -72,26 +69,39 @@ def login(request):
     if request.method == 'POST':
         login_form = forms.LoginForm(request.POST)
         if login_form.is_valid():
-            user_name = request.POST['user_name'] # 使用user_name來放入request進來的user_name
-            user_color = request.POST['user_color']
-            message = '登入成功'
+            login_name = request.POST['user_name'].strip()
+            login_password = request.POST['password']
+            try:
+                user = models.User.objects.get(name=login_name)
+                print(user)
+                if user.password == login_password:
+                    request.session['user_name'] = user.name
+                    request.session['user_email'] = user.email
+                    return redirect('/')
+                else:
+                    message = '密碼錯誤，請再檢查一次！'
+            except:
+                message = '找不到使用者'
         else:
             message = '請檢查輸入的欄位內容'
     else:
         login_form = forms.LoginForm()
-
-    try:
-        if user_name:
-            request.session['user_name'] = user_name # 把user_name變數的內容放到session中的user_name
-        if user_color:
-            request.session['user_color'] = user_color
-    except:
-        pass
-    
     return render(request, 'login.html', locals())
 
 def logout(request):
-    request.session['user_name'] = None
-    
+    if 'user_name' in request.session:
+        Session.objects.all().delete()
+        return redirect('/login/')
     return redirect('/')
     
+def userinfo(request):
+    if 'user_name' in request.session:
+        user_name = request.session['user_name']
+    else:
+        return redirect('/login/')
+
+    try:
+        userinfo = models.User.objects.get(name=user_name)
+    except:
+        pass
+    return render(request, 'userinfo.html', locals())
