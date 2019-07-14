@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.contrib.sessions.models import Session
+from django.contrib import messages
 from django.conf import settings
 from mysite import models, forms
 import urllib, json
@@ -73,17 +74,17 @@ def login(request):
             login_password = request.POST['password']
             try:
                 user = models.User.objects.get(name=login_name)
-                print(user)
                 if user.password == login_password:
                     request.session['user_name'] = user.name
                     request.session['user_email'] = user.email
+                    messages.add_message(request, messages.SUCCESS, '成功登入了')
                     return redirect('/')
                 else:
-                    message = '密碼錯誤，請再檢查一次！'
+                    messages.add_message(request, messages.WARNING, '密碼錯誤，請在檢查一次')
             except:
-                message = '找不到使用者'
+                messages.add_message(request, messages.WARNING, '找不到使用者')
         else:
-            message = '請檢查輸入的欄位內容'
+            messages.add_message(request, messages.INFO, '請檢查輸入的欄位內容')
     else:
         login_form = forms.LoginForm()
     return render(request, 'login.html', locals())
