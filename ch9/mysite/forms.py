@@ -38,3 +38,23 @@ class PostForm(forms.ModelForm):
         self.fields['message'].label = '心情留言'
         self.fields['del_pass'].label = '設定密碼'
         self.fields['captcha'].label = '確定你不是機器人'
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class DiaryForm(forms.ModelForm):
+    class Meta:
+        model = models.Diary
+        fields = ['budget', 'weight', 'note', 'ddate']
+        widgets = {
+            'ddate': DateInput(),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(DiaryForm, self).__init__(*args, **kwargs)
+        self.fields['budget'].label = '今日花費(元)'
+        self.fields['weight'].label = '今日體重(KG)'
+        self.fields['note'].label = '心情留言'
+        self.fields['ddate'].label = '日期'

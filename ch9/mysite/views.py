@@ -13,6 +13,12 @@ from mysite import models, forms
 def index(request, pid=None, del_pass=None):
     if request.user.is_authenticated: # 檢查使用者是否登入
         username = request.user.username
+        useremail = request.user.email
+        try:
+            user = models.User.objects.get(username=username)
+            diaries = models.Diary.objects.filter(user=user).order_by('-ddate')
+        except:
+            pass
     messages.get_messages(request)
     return render(request, 'index.html', locals())
 
@@ -21,23 +27,28 @@ def listing(request):
     posts = models.Post.objects.filter(enabled=True).order_by('-pub_time')[:150]
     moods = models.Mood.objects.all()
     return render(request, 'listing.html', locals())
+    
 
+@login_required(login_url='/login/')
 def posting(request):
-    moods = models.Mood.objects.all()
-    try:
-        user_id = request.GET['user_id']
-        user_pass = request.GET['user_pass']
-        user_mood = request.GET['mood']
-        user_post = request.GET['user_post']
-    except:
-        user_id = None
-        message = '如要張貼訊息，則每一個欄位都要填呦！'
+    if request.user.is_authenticated:
+        username = request.user.username
+        useremail = request.user.email
+    messages.get_messages(request)
 
-    if user_id != None:
-        mood = models.Mood.objects.get(status=user_mood)
-        post = models.Post.objects.create(mood=mood, nickname=user_id, del_pass=user_pass, message=user_post)
-        post.save()
-        message = '成功儲存！請記得你的編輯密碼[{}]！，訊息須經審查後才會顯示。'.format(user_pass)
+    if request.method == 'POST':
+        user = User.objects.get(username=username)
+        diary = models.Diary(user=user)
+        post_form = forms.DiaryForm(request.POST, instance=diary)
+        if post_form.is_valid():
+            messages.add_message(request, messages.INFO, '日記已儲存')
+            post_form.save()
+            return HttpResponseRedirect('/')
+        else:
+            messages.add_message(request, messages.INFO, '要張貼日記，每一個欄位都要填寫呦')
+    else:
+        post_form = forms.DiaryForm()
+        messages.add_message(request, messages.INFO, '要張貼日記，每一個欄位都要填寫呦')
     return render(request, 'posting.html', locals())
 
 
@@ -95,6 +106,7 @@ def logout(request):
     auth.logout(request)
     messages.add_message(request, messages.INFO, '成功登出了')
     return redirect('/')
+
 
 # 下面這一行用來告訴Django這個函數是需要登入過才能執行的(註解千萬別加在同一行)
 @login_required(login_url='/login/')
