@@ -24,7 +24,8 @@ urlpatterns = [
     path('<int:id>/<str:del_pass>', views.index),
     path('list/', views.listing),
     path('post/', views.posting),
-    path('post2db/', views.post2db),
     path('contact/', views.contact),
     path('captcha/', include('captcha.urls')),
+    path('logout/', views.logout),
+    path('login/', views.login),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -6,13 +6,10 @@ from mysite import models, forms
 import urllib, json
 
 # Create your views here.
-def index(request, pid=None, del_pass=None):
-    if request.session.test_cookie_worked():
-        request.session.delete_test_cookie()
-        message = 'cookie supported'
-    else:
-        message = 'cookie not supported'
-    request.session.set_test_cookie()
+def index(request):
+    if 'user_name' in request.session:
+        user_name = request.session['user_name']
+        user_color = request.session['user_color']
 
     return render(request, 'index.html', locals())
 
@@ -71,29 +68,30 @@ def contact(request):
     return render(request, 'contact.html', locals())
 
 
-def post2db(request):
+def login(request):
     if request.method == 'POST':
-        post_form = forms.PostForm(request.POST)
-        if post_form.is_valid():
-            recaptcha_response = request.POST.get('g-recaptcha-response')
-            url = 'https://www.google.com/recaptcha/api/siteverify'
-            values = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                'response': recaptcha_response
-            }
-            data = urllib.parse.urlencode(values).encode()
-            req = urllib.request.Request(url, data=data)
-            response = urllib.request.urlopen(req)
-            result = json.loads(response.read().decode())
-            if result['success']:
-                message = '您的訊息已儲存。要等管理者啟用後才看得到喔。'
-                post_form.save() # form表單儲存進入資料庫
-                return HttpResponseRedirect('/list')
-            else:
-                message = 'reCAPTCHA驗證失敗，請再確認'
+        login_form = forms.LoginForm(request.POST)
+        if login_form.is_valid():
+            user_name = request.POST['user_name'] # 使用user_name來放入request進來的user_name
+            user_color = request.POST['user_color']
+            message = '登入成功'
         else:
-            message = '如要張貼訊息，則每一個欄位都要填！'
+            message = '請檢查輸入的欄位內容'
     else:
-        post_form = forms.PostForm()
-        message = '如要張貼訊息，則每一個欄位都要填！！'
-    return render(request, 'post2db.html', locals())
+        login_form = forms.LoginForm()
+
+    try:
+        if user_name:
+            request.session['user_name'] = user_name # 把user_name變數的內容放到session中的user_name
+        if user_color:
+            request.session['user_color'] = user_color
+    except:
+        pass
+    
+    return render(request, 'login.html', locals())
+
+def logout(request):
+    request.session['user_name'] = None
+    
+    return redirect('/')
+    
