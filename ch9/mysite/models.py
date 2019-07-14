@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Mood(models.Model):
@@ -28,3 +29,16 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Profile(models.Model):
+    # models.OneToOneField(User, on_delete=models.CASCADE)和ForeignKey類似，
+    # 但是使用這個指定的類別只能是一對一的關係，
+    # 也就是每一個Profile「只能」對應到「一個User」
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    height = models.PositiveIntegerField(default=160)
+    male = models.BooleanField(default=False)
+    website = models.URLField(null=True)
+
+    def __str__(self):
+        return self.user.username
