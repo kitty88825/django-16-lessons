@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http.response import Http404
 
 from .models import Product
 
@@ -53,3 +54,36 @@ def listing(request):
         tags = tags + f'<td>{p.size}</td></tr>'
 
     return HttpResponse(html.format(tags))
+
+
+def disp_detail(request, sku):
+    html = '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{}</title>
+    </head>
+    <body>
+        <h2>{}</h2>
+        <hr>
+        <table width=400 border=1 bgcolor="#CCFFCC">
+        {}
+        </table>
+        <a href="/list">回列表</a>
+    </body>
+    </html>
+    '''
+    try:
+        p = Product.objects.get(sku=sku)
+    except Product.DoesNotExist:
+        raise Http404('找不到指定的品項編號')
+
+    tags = f'<tr><td>品項編號</td><td>{p.sku}</td></tr>'
+    tags = tags + f'<tr><td>品項名稱</td><td>{p.name}</td></tr>'
+    tags = tags + f'<tr><td>二手售價</td><td>{p.price}</td></tr>'
+    tags = tags + f'<tr><td>大小</td><td>{p.size}</td></tr>'
+
+    return HttpResponse(html.format(p.name, p.name, tags))
