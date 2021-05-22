@@ -1,0 +1,25 @@
+<!-- list.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中古機列表</title>
+  </head>
+
+  <body>
+    <h2>以下是目前本店販售中的二手機列表</h2>
+    <hr>
+    <table width=400 border=1 bgcolor="#CCFFCC">
+      <tr><td>品名</td><td>售價</td><td>大小</td></tr>
+      {% for p in products %}
+        <tr>
+          <td><a href="/list/{{ p.sku }}">{{ p.name }}</a></td>
+          <td>{{ p.price }}</td>
+          <td>{{ p.size }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
