@@ -26,7 +26,7 @@
   {% block content %}{% endblock %}
 
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    <em>{{ now }}</em>
+    <em>{% now 'D M Y h:m:s a' %}</em>
     {% include "footer.html" %}
   </div>
 </body>

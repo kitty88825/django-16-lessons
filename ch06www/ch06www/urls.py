@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from mysite.views import carlist, engtv, index
+from mysite.views import carlist, carprice, engtv, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +26,6 @@ urlpatterns = [
     path('engtv/<int:tvno>/', engtv, name='engtv-url'),
     path('carlist/', carlist),
     path('carlist/<int:maker>/', carlist, name='carlist-url'),
+    path('carprice/', carprice),
+    path('carprice/<int:maker>/', carprice, name='carprice-url'),
 ]
