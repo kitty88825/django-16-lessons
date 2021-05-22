@@ -28,3 +28,18 @@ def engtv(request, tvno=0):
     tv = tv_list[tvno]
 
     return render(request, 'engtv.html', locals())
+
+
+def carlist(request, maker=0):
+    car_maker = ['SAAB', 'Ford', 'Honda', 'Mazda']
+    car_list = [
+        [],
+        ['Fiesta', 'Focus', 'Modeo', 'EcoSport'],
+        ['Fit', 'Odyssey', 'CR-V', 'City', 'NSX'],
+        ['Mazda3', 'Mazda5', 'Mazda6'],
+    ]
+    maker = maker
+    maker_name = car_maker[maker]
+    cars = car_list[maker]
+
+    return render(request, 'carlist.html', locals())

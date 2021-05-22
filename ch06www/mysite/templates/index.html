@@ -10,15 +10,11 @@
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="/">Home</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'tv-url' 0 %}">李榮浩《不遺憾》</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'tv-url' 1 %}">徐子未《慢冷》</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'tv-url' 2 %}">魏宏宇《Tom&Jerry》</a>
-    </li>
+    {% for t in tv_list %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'tv-url' forloop.counter0 %}">{{ t.name }}</a>
+      </li>
+    {% endfor %}
   </ul>
 {% endblock %}
 
