@@ -21,4 +21,5 @@ from mysite.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
+    path('<int:tvno>/', index, name='tv-url'),
 ]
