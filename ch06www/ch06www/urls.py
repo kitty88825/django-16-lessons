@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from mysite.views import index
+from mysite.views import engtv, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('<int:tvno>/', index, name='tv-url'),
+    path('engtv/', engtv),
+    path('engtv/<int:tvno>/', engtv, name='engtv-url'),
 ]

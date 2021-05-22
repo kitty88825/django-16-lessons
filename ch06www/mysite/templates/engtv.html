@@ -1,0 +1,34 @@
+<!-- engtv.html (ch06www project) -->
+{% extends "base.html" %}
+
+{% block title %}English News{% endblock title %}
+
+{% block tvname %}{{ tv.name}}{% endblock tvname %}
+
+{% block menu %}
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="/">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'engtv-url' 0 %}">Shape of You</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'engtv-url' 1 %}">Faded</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'engtv-url' 2 %}">Chandelier</a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block content %}
+  <div class="conatiner">
+    <div id="tvcode" align="center">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{tv.tvcode}}"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+{% endblock %}
