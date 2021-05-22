@@ -23,7 +23,7 @@ my_patterns = [
     path('about/', about),
     path('about/<int:author_no>', about),
     path('list/<int:yr>/<int:mon>/<int:day>/', listing),
-    path('post/<int:yr>/<int:mon>/<int:day>/<int:post_num>/', post),
+    path('post/<int:yr>/<int:mon>/<int:day>/<int:post_num>/', post, name='post-url'),
 ]
 
 urlpatterns = [

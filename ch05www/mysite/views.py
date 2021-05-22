@@ -1,9 +1,16 @@
 from django.http import HttpResponse
+from django.urls import reverse
 from django.urls.conf import path
 
 
 def homepage(request, testmode):
-    return HttpResponse(f'Hello World! {testmode}')
+    year = 2021
+    month = 5
+    day = 21
+    postid = 1
+    html = f"<a href={reverse('post-url', args=(year, month, day, postid))}>Show the Post</a>"
+
+    return HttpResponse(html)
 
 
 def about(request, author_no=0):
