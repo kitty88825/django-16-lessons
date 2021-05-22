@@ -11,12 +11,12 @@ def about(request, author_no):
 
     return HttpResponse(html)
 
-def listing(request, yr, mon, day):
-    html = f'<h2>List Date is {yr}/{mon}/{day}</h2><hr>'
+def listing(request, list_date):
+    html = f'<h2>List Date is {list_date}</h2><hr>'
 
     return HttpResponse(html)
 
 def post(request, yr, mon, day, post_num):
-    html = f'<h2>{yr}/{mon}/{day}: Post Number: {post_num}</h2><hr>'
+    html = f'<h2>{yr}/{mon}/{day}: Post Number: {int(post_num)}</h2><hr>'
 
     return HttpResponse(html)
