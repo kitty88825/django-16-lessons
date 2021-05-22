@@ -15,7 +15,7 @@
       <tr><td>品名</td><td>售價</td><td>大小</td></tr>
       {% for p in products %}
         <tr>
-          <td>{{ p.name }}</td>
+          <td><a href="/list/{{ p.sku }}">{{ p.name }}</a></td>
           <td>{{ p.price }}</td>
           <td>{{ p.size }}</td>
         </tr>
