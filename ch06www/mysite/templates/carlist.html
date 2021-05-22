@@ -1,0 +1,42 @@
+<!-- carlist.html (ch06www project) -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二手車賣場</title>
+</head>
+
+<body>
+  <h2>歡迎光臨 DJ 二手車賣場</h2>
+  <table>
+    <tr>
+      {% for m in car_maker %}
+        <td bgcolor="#CCFFCC">
+          <a href="{% url 'carlist-url' forloop.counter0 %}">{{ m }}</a>
+        </td>
+      {% endfor %}
+    </tr>
+  </table>
+
+  {% if cars %}
+    <table>
+      <tr><td>車廠</td><td>車款</td></tr>
+  {% endif %}
+
+  {% for c in cars %}
+    <tr bgcolor="{% cycle '#EEEEEE' '#CCCCCC' %}">
+      <td>{{ maker_name }}</td><td>{{ c }}</td>
+    </tr>
+  {% empty %}
+    <h3>車廠<em>{{ maker_name }}</em>目前無庫存車</h3>
+  {% endfor %}
+
+  {% if cars %}
+    </table>
+  {% endif %}
+</body>
+
+</html>
