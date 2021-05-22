@@ -1,3 +1,23 @@
+# OSX file
+.DS_Store
+
+# Static files
+assets/*
+!assets/.gitkeep
+media/*
+!media/.gitkeep
+
+# Env files
+.env.*
+!.env.example
+
+# Log files
+logs/*
+!logs/.gitkeep
+
+# Editor config
+.idea/
+.vscode/
 
 # Created by https://www.gitignore.io/api/venv,macos,python,django,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=venv,macos,python,django,visualstudiocode
@@ -10,7 +30,6 @@ __pycache__/
 local_settings.py
 db.sqlite3
 media
-config.py
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
