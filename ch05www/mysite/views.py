@@ -2,11 +2,11 @@ from django.http import HttpResponse
 from django.urls.conf import path
 
 
-def homepage(request):
-    return HttpResponse('Hello World!')
+def homepage(request, testmode):
+    return HttpResponse(f'Hello World! {testmode}')
 
 
-def about(request, author_no):
+def about(request, author_no=0):
     html = f"<h2>Here is Author: {author_no}'s about page!</h2><hr>"
 
     return HttpResponse(html)
