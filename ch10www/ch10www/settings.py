@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'anymail',
     'captcha',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,6 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 DEFAULT_FROM_EMAIL = "you@example.com"
 SERVER_EMAIL = "your-server@example.com"
+
+# django-registration-redux
+ACCOUNT_ACTIVATION_DAYS = 7

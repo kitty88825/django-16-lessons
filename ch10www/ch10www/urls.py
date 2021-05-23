@@ -30,4 +30,5 @@ urlpatterns = [
     path('userinfo/', userinfo),
 
     path('captcha/', include('captcha.urls')),
+    path('accounts/', include('registration.backends.default.urls')),
 ]
