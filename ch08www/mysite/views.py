@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from .models import Mood, Post
+from .form import ContactForm
 
 
 def index(request, pid=None, del_pass=None):
@@ -61,3 +62,9 @@ def posting(request):
         message = f'成功儲存！請記得你的編輯密碼[{user_pass}]!訊息須經審查後才會顯示。'
 
     return render(request, 'posting.html', locals())
+
+
+def contact(request):
+    form = ContactForm()
+
+    return render(request, 'contact.html', locals())

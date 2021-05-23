@@ -16,13 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from mysite.views import index, listing, posting
+from mysite.views import contact, index, listing, posting
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('<int:pid>/<str:del_pass>', index),
+    path('contact/', contact),
     path('list/', listing),
     path('post/', posting),
 ]
