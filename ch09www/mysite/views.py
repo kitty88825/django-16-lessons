@@ -1,17 +1,20 @@
 from django.core.mail import EmailMessage
-from django.contrib import messages
-from django.contrib.sessions.models import Session
+from django.contrib import auth, messages
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .models import Mood, Post, User
+from .models import Mood, Post
 from .form import ContactForm, LoginForm, PostForm
 
 
 def index(request):
-    if 'username' in request.session:
-        username = request.session['username']
-        useremail = request.session['useremail']
+    if request.user.is_authenticated:
+        username = request.user.username
+
+    messages.get_messages(request)
 
     return render(request, 'index.html', locals())
 
@@ -91,17 +94,16 @@ def login(request):
         if login_form.is_valid():
             login_name = request.POST['username'].strip()
             login_password = request.POST['password']
-            try:
-                user = User.objects.get(name=login_name)
-                if user.password == login_password:
-                    request.session['username'] = user.name
-                    request.session['useremail'] = user.email
+            user = authenticate(username=login_name, password=login_password)
+            if user:
+                if user.is_active:
+                    auth.login(request, user)
                     messages.add_message(request, messages.SUCCESS, '成功登入了')
                     return redirect('/')
                 else:
-                    messages.add_message(request, messages.WARNING, '密碼錯誤，請再檢查一次')
-            except:
-                messages.add_message(request, messages.WARNING, '找不到使用者')
+                    messages.add_message(request, messages.WARNING, '帳號尚未啟用')
+            else:
+                messages.add_message(request, messages.WARNING, '登入失敗')
         else:
             messages.add_message(request, messages.INFO, '請檢查輸入的欄位內容')
     else:
@@ -111,21 +113,19 @@ def login(request):
 
 
 def logout(request):
-    if 'username' in request.session:
-        Session.objects.all().delete()
-        return redirect('/login/')
+    auth.logout(request)
+    messages.add_message(request, messages.INFO, '成功登出了')
+
     return redirect('/')
 
 
+@login_required(login_url='/login/')
 def userinfo(request):
-    if 'username' in request.session:
-        username = request.session['username']
-    else:
-        return redirect('/login/')
-
-    try:
-        userinfo = User.objects.get(name=username)
-    except:
-        pass
+    if request.user.is_authenticated:
+        username = request.user.username
+        try:
+            userinfo = User.objects.get(username=username)
+        except:
+            pass
 
     return render(request, 'userinfo.html', locals())
