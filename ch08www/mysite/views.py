@@ -13,4 +13,8 @@ def index(request):
     else:
         verified = False
 
+    years = range(1960, 2022)
+    uyear = request.GET['byear']
+    urfcolor = request.GET.getlist('fcolor')
+
     return render(request, 'index.html', locals())

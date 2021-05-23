@@ -8,10 +8,32 @@
       <input id="user_id" type="text" name="user_id">
       <label for="user_pass">Your Password：</label>
       <input id="user_pass" type="password" name="user_pass">
+      <label for="byear">出生年：</label>
+      <select name="byear">
+        {% for year in years %}
+          <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+      </select>
+      喜歡的顏色(可複選)：
+      <input type="checkbox" name="fcolor" value="Green">Green
+      <input type="checkbox" name="fcolor" value="Red">Red
+      <input type="checkbox" name="fcolor" value="Blue">Blue
+      <input type="checkbox" name="fcolor" value="Yellow">Yellow
+      <input type="checkbox" name="fcolor" value="Orange">Orange
+      <br>
       <input type="submit" value="登入">
       <input type="reset" value="清除重填">
     </form>
     Your ID：{{ urid | default:"未輸入ID" }}
+    <br>
+    出生年：{{ uyear }}
+    <br>
+    顏色喜好：
+    {% for c in urfcolor %}
+      {{c}}
+    {% empty %}
+      沒有選擇任何顏色
+    {% endfor %}
     <br>
     {% if verified %}
       <em>你通過了驗證</em>
