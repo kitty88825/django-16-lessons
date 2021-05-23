@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'c+h3l&_+0y^=a6($b7k_qvazn$jef-b9f2-_dngyj7ou6e7sfi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,10 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mysite',
-
-    'anymail',
-    'captcha',
-    'registration',
 ]
 
 MIDDLEWARE = [
@@ -127,15 +123,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-
-# django-anymail
-ANYMAIL = {
-    "MAILGUN_API_KEY": "<your Mailgun key>",
-    "MAILGUN_SENDER_DOMAIN": 'mg.example.com',
-}
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-DEFAULT_FROM_EMAIL = "you@example.com"
-SERVER_EMAIL = "your-server@example.com"
-
-# django-registration-redux
-ACCOUNT_ACTIVATION_DAYS = 7
+STATIC_ROOT = '/home/kitty88825/ch10www/static/'
