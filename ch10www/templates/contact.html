@@ -1,0 +1,30 @@
+<!-- contact.html (ch10www project) -->
+{% extends "base.html" %}
+{% block title %}聯絡管理員{% endblock title %}
+{% block content %}
+  <div class="container">
+    {% if message %}
+      <div class="alert alert-warning">{{ message }}</div>
+      {{ user_name }}<br>
+      {{ user_city }}<br>
+      {{ user_school }}<br>
+      {{ user_email }}<br>
+      {{ user_message | linebreaks }}<br>
+    {% endif %}
+
+    <div class="panel panel-primary">
+      <form action="." name="my form" method="POST">
+        {% csrf_token %}
+        <div class="panel-heading">
+          <h3>寫信給管理員</h3>
+        </div>
+        <div class="panel-body">
+          {{ form.as_p }}
+        </div>
+        <div class="panel-footer">
+          <input type="submit" value="送出">
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

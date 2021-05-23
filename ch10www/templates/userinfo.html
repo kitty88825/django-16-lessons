@@ -1,0 +1,28 @@
+<!-- userinfo.html (ch10www project) -->
+{% extends "base.html" %}
+{% block title %}分享日記{% endblock title %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading" align=center>
+            <h3>使用者資訊</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading" align=center>
+          {{ userinfo.user.username | upper }}
+        </div>
+        <div class="panel panel-body">
+          <p>電子郵件：{{ userinfo.user.email }}</p>
+          <p>身高：{{ userinfo.height }}</p>
+          <p>性別：{{ userinfo.male | yesno:"男生,女生" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
