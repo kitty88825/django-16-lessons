@@ -7,7 +7,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from .models import Diary, Mood, Post, Profile
-from .form import ContactForm, DiaryForm, LoginForm
+from .form import ContactForm, DiaryForm, LoginForm, ProfileForm
 
 
 @login_required(login_url='/login/')
@@ -119,10 +119,22 @@ def logout(request):
 def userinfo(request):
     if request.user.is_authenticated:
         username = request.user.username
-        try:
-            user = User.objects.get(username=username)
-            userinfo = Profile.objects.get(user=user)
-        except:
-            pass
+
+    user = User.objects.get(username=username)
+    try:
+        profile = Profile.objects.get(user=user)
+    except:
+        profile = Profile(user=user)
+
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.add_message(request, messages.INFO, '個人資料已儲存')
+            return HttpResponseRedirect('/userinfo')
+        else:
+            messages.add_message(request, messages.INFO, '要修改個人資料，每一個欄位都要填...')
+    else:
+        profile_form = ProfileForm()
 
     return render(request, 'userinfo.html', locals())
