@@ -65,6 +65,15 @@ def posting(request):
 
 
 def contact(request):
-    form = ContactForm()
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        message = '感謝您的來信。'
+        user_name = form.cleaned_data['user_name']
+        user_city = form.cleaned_data['user_city']
+        user_school = form.cleaned_data['user_school']
+        user_email = form.cleaned_data['user_email']
+        user_message = form.cleaned_data['user_message']
+    else:
+        message = '請檢查您輸入的資訊是否正確！'
 
     return render(request, 'contact.html', locals())

@@ -3,6 +3,15 @@
 {% block title %}聯絡管理員{% endblock title %}
 {% block content %}
   <div class="container">
+    {% if message %}
+      <div class="alert alert-warning">{{ message }}</div>
+      {{ user_name }}<br>
+      {{ user_city }}<br>
+      {{ user_school }}<br>
+      {{ user_email }}<br>
+      {{ user_message | linebreaks }}<br>
+    {% endif %}
+
     <div class="panel panel-primary">
       <form action="." name="my form" method="POST">
         {% csrf_token %}
