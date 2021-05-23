@@ -1,3 +1,4 @@
+from django.core.mail import EmailMessage
 from django.shortcuts import render
 
 from .models import Mood, Post
@@ -73,6 +74,17 @@ def contact(request):
         user_school = form.cleaned_data['user_school']
         user_email = form.cleaned_data['user_email']
         user_message = form.cleaned_data['user_message']
+
+        mail_body = u'''
+        網友姓名：{}
+        居住城市：{}
+        是否在學：{}
+        反映意見：如下
+        {}
+        '''.format(user_name, user_city, user_school, user_message)
+
+        email = EmailMessage('來自【不吐不快】網站的網友意見', mail_body, user_email, [user_email])
+        email.send()
     else:
         message = '請檢查您輸入的資訊是否正確！'
 
