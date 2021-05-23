@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Mood, Post, User
+from .models import Mood, Post, Profile
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -10,4 +10,4 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Mood)
 admin.site.register(Post, PostAdmin)
-admin.site.register(User)
+admin.site.register(Profile)

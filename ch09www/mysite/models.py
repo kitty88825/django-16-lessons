@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -20,11 +21,11 @@ class Post(models.Model):
         return self.message
 
 
-class User(models.Model):
-    name = models.CharField(max_length=20, null=False)
-    email = models.EmailField()
-    password = models.CharField(max_length=20, null=False)
-    enabled = models.BooleanField(default=False)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    height = models.PositiveIntegerField(default=160)
+    male = models.BooleanField(default=False)
+    website = models.URLField(null=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
