@@ -96,9 +96,9 @@ def login(request):
         login_form = LoginForm()
 
     try:
-        if username:
+        if 'username' in request.session:
             request.session['username'] = username
-        if usercolor:
+        if 'usercolor' in request.session:
             request.session['usercolor'] = usercolor
     except:
         pass
