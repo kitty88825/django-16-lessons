@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mysite',
 
     'anymail',
+    'captcha',
 ]
 
 MIDDLEWARE = [
