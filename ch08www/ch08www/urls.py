@@ -22,4 +22,5 @@ from mysite.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
+    path('<int:pid>/<str:del_pass>', index),
 ]

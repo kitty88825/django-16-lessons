@@ -1,4 +1,14 @@
 <!-- index.html (ch08www project) -->
+<script>
+function go_delete(id) {
+  var user_pass = document.getElementById("user_pass").value;
+  if (user_pass != "") {
+    var usr = "/" + id + "/" + user_pass;
+    window.location = usr;
+  }
+}
+</script>
+
 {% extends "base.html" %}
 {% block title %}我有話要說{% endblock title %}
 {% block content %}
@@ -41,6 +51,7 @@
             <div class="panel-body"> {{ p.message | linebreaks }} </div>
             <div class="panel-footer" align="right">
               <i><small>{{ p.pub_time }}</small></i>
+              <span class="glyphicon glyphicon-trash", onclick="go_delete({{p.id}})" style="cursor: pointer;"></span>
             </div>
           </div>
         </div>

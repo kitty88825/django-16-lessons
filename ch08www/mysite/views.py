@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Mood, Post
 
 
-def index(request):
+def index(request, pid=None, del_pass=None):
     posts = Post.objects.filter(enabled=True).order_by('-pub_time')[:30]
     moods = Mood.objects.all()
     try:
@@ -15,7 +15,19 @@ def index(request):
         user_id = None
         message = '如要張貼訊息，則每一個欄位都要填...'
 
-    if user_id != None:
+    if del_pass and pid:
+        try:
+            post = Post.objects.get(id=pid)
+        except:
+            post = None
+
+        if post:
+            if post.del_pass == del_pass:
+                post.delete()
+                message = '資料刪除成功'
+            else:
+                message = '密碼錯誤'
+    elif user_id != None:
         mood = Mood.objects.get(status=user_mood)
         post = Post.objects.create(mood=mood, nickname=user_id, del_pass=user_pass, message=user_post)
         post.save()
