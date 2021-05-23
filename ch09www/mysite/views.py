@@ -1,4 +1,5 @@
 from django.core.mail import EmailMessage
+from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -95,13 +96,14 @@ def login(request):
                 if user.password == login_password:
                     request.session['username'] = user.name
                     request.session['useremail'] = user.email
+                    messages.add_message(request, messages.SUCCESS, '成功登入了')
                     return redirect('/')
                 else:
-                    message = '密碼錯誤，請再檢查一次'
+                    messages.add_message(request, messages.WARNING, '密碼錯誤，請再檢查一次')
             except:
-                message = '找不到使用者'
+                messages.add_message(request, messages.WARNING, '找不到使用者')
         else:
-            message = '請檢查輸入的欄位內容'
+            messages.add_message(request, messages.INFO, '請檢查輸入的欄位內容')
     else:
         login_form = LoginForm()
 
