@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from mysite.views import contact, index, listing, posting
+from mysite.views import contact, index, listing, post2db, posting
 
 
 urlpatterns = [
@@ -25,5 +25,6 @@ urlpatterns = [
     path('<int:pid>/<str:del_pass>', index),
     path('contact/', contact),
     path('list/', listing),
+    path('post2db/', post2db),
     path('post/', posting),
 ]

@@ -2,7 +2,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render
 
 from .models import Mood, Post
-from .form import ContactForm
+from .form import ContactForm, PostForm
 
 
 def index(request, pid=None, del_pass=None):
@@ -89,3 +89,11 @@ def contact(request):
         message = '請檢查您輸入的資訊是否正確！'
 
     return render(request, 'contact.html', locals())
+
+
+def post2db(request):
+    post_form = PostForm()
+    moods = Mood.objects.all()
+    message = '如要張貼訊息，則每一個欄位都要填...'
+
+    return render(request, 'post2db.html', locals())
