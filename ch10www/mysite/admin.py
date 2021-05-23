@@ -1,13 +1,17 @@
 from django.contrib import admin
 
-from .models import Mood, Post, Profile
+from .models import Poll, PollItem
 
 
-class PostAdmin(admin.ModelAdmin):
-    list_display = ('nickname', 'message', 'enabled', 'pub_time')
-    ordering = ('-pub_time',)
+class PollAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created_at', 'enabled')
+    ordering = ('-created_at',)
 
 
-admin.site.register(Mood)
-admin.site.register(Post, PostAdmin)
-admin.site.register(Profile)
+class PollItemAdmin(admin.ModelAdmin):
+    list_display = ('poll', 'name', 'vote', 'image_url')
+    ordering = ('poll',)
+
+
+admin.site.register(Poll, PollAdmin)
+admin.site.register(PollItem, PollItemAdmin)
