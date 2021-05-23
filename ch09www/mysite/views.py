@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .models import Mood, Post
+from .models import Mood, Post, Profile
 from .form import ContactForm, LoginForm, PostForm
 
 
@@ -124,7 +124,8 @@ def userinfo(request):
     if request.user.is_authenticated:
         username = request.user.username
         try:
-            userinfo = User.objects.get(username=username)
+            user = User.objects.get(username=username)
+            userinfo = Profile.objects.get(user=user)
         except:
             pass
 

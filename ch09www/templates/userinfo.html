@@ -10,8 +10,18 @@
             <h3>使用者資訊</h3>
           </div>
         </div>
-        <p>您的姓名：{{ userinfo.username }}</p>
-        <p>電子郵件：{{ userinfo.email }}</p>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading" align=center>
+          {{ userinfo.user.username | upper }}
+        </div>
+        <div class="panel panel-body">
+          <p>電子郵件：{{ userinfo.user.email }}</p>
+          <p>身高：{{ userinfo.height }}</p>
+          <p>性別：{{ userinfo.male | yesno:"男生,女生" }}</p>
+        </div>
       </div>
     </div>
   </div>
