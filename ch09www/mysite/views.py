@@ -1,15 +1,16 @@
 from django.core.mail import EmailMessage
+from django.contrib.sessions.models import Session
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .models import Mood, Post
+from .models import Mood, Post, User
 from .form import ContactForm, LoginForm, PostForm
 
 
 def index(request):
     if 'username' in request.session:
         username = request.session['username']
-        usercolor = request.session['usercolor']
+        useremail = request.session['useremail']
 
     return render(request, 'index.html', locals())
 
@@ -87,25 +88,42 @@ def login(request):
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            username = request.POST['user_name']
-            usercolor = request.POST['user_color']
-            message = '登入成功'
+            login_name = request.POST['username'].strip()
+            login_password = request.POST['password']
+            try:
+                user = User.objects.get(name=login_name)
+                if user.password == login_password:
+                    request.session['username'] = user.name
+                    request.session['useremail'] = user.email
+                    return redirect('/')
+                else:
+                    message = '密碼錯誤，請再檢查一次'
+            except:
+                message = '找不到使用者'
         else:
             message = '請檢查輸入的欄位內容'
     else:
         login_form = LoginForm()
 
+    return render(request, 'login.html', locals())
+
+
+def logout(request):
+    if 'username' in request.session:
+        Session.objects.all().delete()
+        return redirect('/login/')
+    return redirect('/')
+
+
+def userinfo(request):
+    if 'username' in request.session:
+        username = request.session['username']
+    else:
+        return redirect('/login/')
+
     try:
-        if 'username' in request.session:
-            request.session['username'] = username
-        if 'usercolor' in request.session:
-            request.session['usercolor'] = usercolor
+        userinfo = User.objects.get(name=username)
     except:
         pass
 
-    return render(request, 'login.html', locals())
-
-def logout(request):
-    request.session['username'] = None
-
-    return redirect('/')
+    return render(request, 'userinfo.html', locals())

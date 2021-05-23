@@ -37,12 +37,5 @@ class PostForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    COLORS = [
-        ['紅', '紅'],
-        ['黃', '黃'],
-        ['綠', '綠'],
-        ['藍', '藍'],
-        ['紫', '紫'],
-    ]
-    user_name = forms.CharField(label='你的姓名', max_length=10)
-    user_color = forms.ChoiceField(label='幸運顏色', choices=COLORS)
+    username = forms.CharField(label='姓名', max_length=10)
+    password = forms.CharField(label='密碼', widget=forms.PasswordInput())
