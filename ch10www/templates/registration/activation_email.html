@@ -1,0 +1,7 @@
+<!-- activation_email.html (ch10www project) -->
+<h1>感謝您的註冊</h1>
+<p>使用者：{{ user }}</p>
+<p>在網站：{{ site }} 註冊</p>
+<p>您的連結：</p>
+<a href = "http://{{ site }}/accounts/activate/{{ activation_key }}" target = "_self">http://{{ site }}/accounts/activate/{{ activation_key }}</a>
+<p>將於 {{ expiration_days }} 天後到期</p>
