@@ -1,19 +1,15 @@
 from django.core.mail import EmailMessage
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from .models import Mood, Post
-from .form import ContactForm, PostForm
+from .form import ContactForm, LoginForm, PostForm
 
 
-def index(request, pid=None, del_pass=None):
-    if request.session.test_cookie_worked():
-        request.session.delete_test_cookie()
-        message = 'cookie supported!'
-    else:
-        message = 'cookie not supported!'
-
-    request.session.set_test_cookie()
+def index(request):
+    if 'username' in request.session:
+        username = request.session['username']
+        usercolor = request.session['usercolor']
 
     return render(request, 'index.html', locals())
 
@@ -85,3 +81,31 @@ def post2db(request):
         message = '如要張貼訊息，則每一個欄位都要填...'
 
     return render(request, 'post2db.html', locals())
+
+
+def login(request):
+    if request.method == 'POST':
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            username = request.POST['user_name']
+            usercolor = request.POST['user_color']
+            message = '登入成功'
+        else:
+            message = '請檢查輸入的欄位內容'
+    else:
+        login_form = LoginForm()
+
+    try:
+        if username:
+            request.session['username'] = username
+        if usercolor:
+            request.session['usercolor'] = usercolor
+    except:
+        pass
+
+    return render(request, 'login.html', locals())
+
+def logout(request):
+    request.session['username'] = None
+
+    return redirect('/')
