@@ -1,4 +1,5 @@
 from django.core.mail import EmailMessage
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 
 from .models import Mood, Post
@@ -92,8 +93,16 @@ def contact(request):
 
 
 def post2db(request):
-    post_form = PostForm()
-    moods = Mood.objects.all()
-    message = '如要張貼訊息，則每一個欄位都要填...'
+    if request.method == 'POST':
+        post_form = PostForm(request.POST)
+        if post_form.is_valid():
+            message = '您的訊息已儲存，要等管理者啟用後才看得到喔。'
+            post_form.save()
+            return HttpResponseRedirect('/list/')
+        else:
+            message = '如要張貼訊息，則每一個欄位都要填...'
+    else:
+        post_form = PostForm()
+        message = '如要張貼訊息，則每一個欄位都要填...'
 
     return render(request, 'post2db.html', locals())
