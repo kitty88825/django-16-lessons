@@ -1,20 +1,10 @@
 from django.shortcuts import render
 
+from .models import Mood, Post
+
 
 def index(request):
-    try:
-        urid = request.GET['user_id']
-        urpass = request.GET['user_pass']
-    except:
-        urid = None
-
-    if urid != None and urpass == '12345':
-        verified = True
-    else:
-        verified = False
-
-    years = range(1960, 2022)
-    uyear = request.GET['byear']
-    urfcolor = request.GET.getlist('fcolor')
+    posts = Post.objects.filter(enabled=True).order_by('-pub_time')[:30]
+    moods = Mood.objects.all()
 
     return render(request, 'index.html', locals())
