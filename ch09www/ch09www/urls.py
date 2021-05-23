@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from mysite.views import contact, index, login, logout, post2db, userinfo
+from mysite.views import contact, index, login, logout, posting, userinfo
 
 
 urlpatterns = [
@@ -26,7 +26,7 @@ urlpatterns = [
     path('contact/', contact),
     path('login/', login),
     path('logout/', logout),
-    path('post/', post2db),
+    path('post/', posting),
     path('userinfo/', userinfo),
 
     path('captcha/', include('captcha.urls')),

@@ -6,13 +6,20 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .models import Mood, Post, Profile
-from .form import ContactForm, LoginForm, PostForm
+from .models import Diary, Mood, Post, Profile
+from .form import ContactForm, DiaryForm, LoginForm
 
 
+@login_required(login_url='/login/')
 def index(request):
     if request.user.is_authenticated:
         username = request.user.username
+        useremail = request.user.email
+        try:
+            user = User.objects.get(username=username)
+            diaries = Diary.objects.filter(user=user).order_by('-ddate')
+        except:
+            pass
 
     messages.get_messages(request)
 
@@ -26,22 +33,27 @@ def listing(request):
     return render(request, 'listing.html', locals())
 
 
+@login_required(login_url='/login/')
 def posting(request):
-    moods = Mood.objects.all()
-    try:
-        user_id = request.POST['user_id']
-        user_pass = request.POST['user_pass']
-        user_post = request.POST['user_post']
-        user_mood = request.POST['mood']
-    except:
-        user_id = None
-        message = '如要張貼訊息，則每一個欄位都要填...'
+    if request.user.is_authenticated:
+        username = request.user.username
+        useremail = request.user.email
 
-    if user_id != None:
-        mood = Mood.objects.get(status=user_mood)
-        post = Post.objects.create(mood=mood, nickname=user_id, del_pass=user_pass, message=user_post)
-        post.save()
-        message = f'成功儲存！請記得你的編輯密碼[{user_pass}]!訊息須經審查後才會顯示。'
+    messages.get_messages(request)
+
+    if request.method == 'POST':
+        user = User.objects.get(username=username)
+        diary = Diary(user=user)
+        post_form = DiaryForm(request.POST, instance=diary)
+        if post_form.is_valid():
+            post_form.save()
+            messages.add_message(request, messages.INFO, '日記已儲存')
+            return HttpResponseRedirect('/')
+        else:
+            messages.add_message(request, messages.INFO, '如要張貼訊息，則每一個欄位都要填...')
+    else:
+        post_form = DiaryForm()
+        messages.add_message(request, messages.INFO, '如要張貼訊息，則每一個欄位都要填...')
 
     return render(request, 'posting.html', locals())
 
@@ -70,22 +82,6 @@ def contact(request):
         message = '請檢查您輸入的資訊是否正確！'
 
     return render(request, 'contact.html', locals())
-
-
-def post2db(request):
-    if request.method == 'POST':
-        post_form = PostForm(request.POST)
-        if post_form.is_valid():
-            message = '您的訊息已儲存，要等管理者啟用後才看得到喔。'
-            post_form.save()
-            return HttpResponseRedirect('/list/')
-        else:
-            message = '如要張貼訊息，則每一個欄位都要填...'
-    else:
-        post_form = PostForm()
-        message = '如要張貼訊息，則每一個欄位都要填...'
-
-    return render(request, 'post2db.html', locals())
 
 
 def login(request):
