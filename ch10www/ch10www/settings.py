@@ -134,12 +134,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 # django-anymail
 ANYMAIL = {
     # (exact settings here depend on your ESP...)
-    "MAILGUN_API_KEY": "<your Mailgun key>",
-    "MAILGUN_SENDER_DOMAIN": 'mg.example.com',  # your Mailgun domain, if needed
+    "MAILGUN_API_KEY": "b924cda03ef1c9462cbce3de21523f7e-6ae2ecad-36632676",
+    "MAILGUN_SENDER_DOMAIN": 'sandbox57565f0092414cdaaf3a2eca52aba1de.mailgun.org',  # your Mailgun domain, if needed
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  # or sendgrid.EmailBackend, or...
-DEFAULT_FROM_EMAIL = "you@example.com"  # if you don't already have this in settings
-SERVER_EMAIL = "your-server@example.com"  # ditto (default from-email for Django errors)
+DEFAULT_FROM_EMAIL = "mailgun@sandbox57565f0092414cdaaf3a2eca52aba1de.mailgun.org"  # if you don't already have this in settings
+SERVER_EMAIL = "mailgun@sandbox57565f0092414cdaaf3a2eca52aba1de.mailgun.org"  # ditto (default from-email for Django errors)
 
 # django-allauth
 SITE_ID = 1
